@@ -8,14 +8,16 @@ class postAnswer
 {
     private $conn;
     private $post;
+    private $cur_id;
 
-    function __construct($post) {
-        $this->post = $post;
+    function __construct() {
+        $postData = file_get_contents('php://input');
+        $this->post = json_decode($postData, true);
         $this->conn = new \PDO('mysql:host=' . DBHOST . ':' . DBPOST . ';dbname=' . DBNAME, DBLOGIN, DBPASS);
     }
 
     public function getAnswer() {
-        if ($this->post['task'] == "add") {
+        if (array_key_exists('type',$this->post)) {
             return $this->add();
         }
         else {
@@ -51,9 +53,10 @@ class postAnswer
         $name = $this->post['name'];
         $desc = $this->post['description'];
         $this->conn->query("INSERT INTO task SET name='$name',description='$desc',date='$date'");
-        $answer=$this->conn->lastInsertId();
-        $result[] = ["error" => false];
-        $result[] = ["id" => $answer];
+        $this->cur_id=$this->conn->lastInsertId();
+        $result = ["error" => false];
+        $result["id"] = (int)$this->cur_id;
+        $this->addRelations($this->post['tags']);
         return json_encode($result);
     }
 
@@ -65,9 +68,19 @@ class postAnswer
         $date = date('Y-m-d');
         $name = $this->post['name'];
         $this->conn->query("INSERT INTO tag SET name='$name',date='$date'");
-        $answer=$this->conn->lastInsertId();
+        $this->cur_id=$this->conn->lastInsertId();
         $result[] = ["error" => false];
-        $result[] = ["id" => $answer];
+        $result[] = ["id" => $this->cur_id];
+        $this->addRelations($this->post['tasks']);
         return json_encode($result);
+    }
+
+    private function addRelations($arr) {
+        foreach ($arr as $cur_item) {
+            if ($this->post['type'] == 'task')
+                $this->conn->query("INSERT INTO relations SET id_task=$this->cur_id,id_tag=$cur_item");
+            elseif ($this->post['type'] == 'tag')
+                var_export($this->conn->query("INSERT INTO relations SET id_task=$cur_item,id_tag=$this->cur_id"));
+        }
     }
 }

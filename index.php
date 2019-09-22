@@ -10,10 +10,12 @@ function __autoload($class)
 
 use backend\taskManager;
 
-function answerRequest($get, $post) {
-    $taskMan = new taskManager($get, $post);
+function answerRequest() {
+    $taskMan = new taskManager();
 
     return $taskMan->getAnswer();
 }
 
-echo answerRequest($_GET, $_POST);
+//$data = json_decode($postData, true);
+echo answerRequest();
+
