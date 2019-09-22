@@ -6,7 +6,6 @@ use backend\Error;
 
 class getAnswer
 {
-
     public function getAnswer() {
         $id = $this->checkID();
         if ($id == -1) {

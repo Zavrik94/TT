@@ -16,6 +16,5 @@ function answerRequest() {
     return $taskMan->getAnswer();
 }
 
-//$data = json_decode($postData, true);
 echo answerRequest();
 

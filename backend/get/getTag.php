@@ -9,19 +9,17 @@ class getTag
     private $conn;
 
     function __construct() {
-        $this->conn = new \PDO('mysql:host=' . DBHOST . ':' . DBPOST . ';dbname=' . DBNAME, DBLOGIN, DBPASS);
+        $this->conn = new \PDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME, DBLOGIN, DBPASS);
     }
 
     public function searchTag($tag_id) {
         $answer = $this->conn->query("SELECT * FROM tag" . ($tag_id == 0 ? "" : " WHERE id = $tag_id"));
         $result = ["error" => false, "rows" => $answer->rowCount()];
         while ($res = $answer->fetch(\PDO::FETCH_ASSOC)) {
-            $id = (int)$res["id"];
-            unset($res["id"]);
-            $result[$id] = $res;
+            $result["tags"][] = $res;
         }
         if ($tag_id > 0) {
-            $result["tasks"] = $this->searchTasks($id);
+            $result["tasks"] = $this->searchTasks($tag_id);
         }
         return json_encode($result);
     }

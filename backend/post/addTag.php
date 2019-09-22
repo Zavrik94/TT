@@ -14,7 +14,7 @@ class addTag
     function __construct() {
         $postData = file_get_contents('php://input');
         $this->post = json_decode($postData, true);
-        $this->conn = new \PDO('mysql:host=' . DBHOST . ':' . DBPOST . ';dbname=' . DBNAME, DBLOGIN, DBPASS);
+        $this->conn = new \PDO('mysql:host=' . DBHOST . ';dbname=' . DBNAME, DBLOGIN, DBPASS);
     }
 
      public function add() {
