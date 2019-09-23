@@ -20,7 +20,7 @@ class getTask
             $result["tasks"][] = $res;
         }
         if ($task_id > 0) {
-            $result["tags"] = $this->searchTags($id);
+            $result["tags"] = $this->searchTags($task_id);
         }
         return json_encode($result);
     }

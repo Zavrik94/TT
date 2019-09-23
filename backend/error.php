@@ -70,8 +70,8 @@ class Error
                     \"error_desc\":(string) - описание ошибки</br>
                 }</br>
                 описание ошибок:</br>
-                2 : \"GET task error\";</br>
-                3 : \"POST task error\";</br>
+                2 : \"can`t find GET (task or tag) command\";</br>
+                3 : \"can`t find type to add in POST JSON\";</br>
                 4 : \"Wrong type on search task\";</br>
                 5 : \"Wrong type on add task\";</br>
                 6 : \"Wrong id for search\";</br>
