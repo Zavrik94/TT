@@ -3,8 +3,8 @@
 namespace env;
 
 #DATABASE
-define("DBPORT", "3306");
-define("DBHOST", "localhost");
-define("DBLOGIN","Zavrik");
-define("DBPASS","Zavrik_2008!");
-define("DBNAME","zavrik");
+define("DBPORT", "3307");
+define("DBHOST", "localhost:" . DBPORT);
+define("DBLOGIN","root");
+define("DBPASS","root");
+define("DBNAME","task");
